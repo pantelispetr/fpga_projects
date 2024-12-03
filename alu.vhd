@@ -15,14 +15,14 @@ architecture arch of alu is
 
 signal not_bus , mux2to1_out ,mux3to1_out, mux4to1_out, adder8bit_out : std_logic_vector(7 downto 0);
 
-signal and_out,e, nor_out , xor_out, not_out : std_logic_vector(7 downto 0);
+signal and_out,e, or_out , xor_out, not_out : std_logic_vector(7 downto 0);
 
 begin
 not_bus<= not db;
 and_out<=ac and db;
-nor_out<=ac nor db;
+or_out<=ac or db;
 xor_out<=ac xor db;
-not_bus<= not ac;
+not_out<= not ac;
 e<="00000000";
 
 
@@ -33,7 +33,7 @@ block2: mux4to1 port map
 block3: adder8bit port map
 		(A=>mux2to1_out,B=>mux3to1_out,Ci=>alus(4),Co=>adder8bit_out);
 block4: mux4to1 port map
-		(A=>and_out,B=>nor_out,C=>xor_out,D=>not_out,S0=>alus(6),S1=>alus(5),Z=>mux4to1_out);
+		(A=>and_out,B=>or_out,C=>xor_out,D=>not_out,S0=>alus(6),S1=>alus(5),Z=>mux4to1_out);
 block5: mux2to1 port map
 		(A=>adder8bit_out,B=>mux4to1_out,S=>alus(7),Z=>dout);
 
